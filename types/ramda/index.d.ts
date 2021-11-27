@@ -343,8 +343,18 @@ export function composeP<V0, T1, T2, T3, T4, T5, T6>(fn5: (x: T5) => Promise<T6>
  * Performs right-to-left function composition using transforming function.
  * With the current typings, all functions must be unary.
  */
-export function composeWith<V0, T>(composer: (...args: any[]) => any, fns: ComposeWithFns<V0, T>): (x0: V0) => T;
-export function composeWith(composer: (...args: any[]) => any): <V0, T>(fns: ComposeWithFns<V0, T>) => (x: V0) => T;
+// tslint:disable:max-line-length
+export function composeWith<A extends any[], R1, R2, R3, R4, R5, R6, R7>(transformer: Arity2Fn, fns: [f7: (a: R6) => R7, f6: (a: R5) => R6, f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R7;
+export function composeWith<A extends any[], R1, R2, R3, R4, R5, R6>(transformer: Arity2Fn, fns: [f6: (a: R5) => R6, f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R6;
+export function composeWith<A extends any[], R1, R2, R3, R4, R5>(transformer: Arity2Fn, fns: [f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R5;
+export function composeWith<A extends any[], R1, R2, R3, R4>(transformer: Arity2Fn, fns: [f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R4;
+export function composeWith<A extends any[], R1, R2, R3>(transformer: Arity2Fn, fns: [f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R3;
+export function composeWith<A extends any[], R1, R2>(transformer: Arity2Fn, fns: [f2: (a: R1) => R2, f1: (...args: A) => R1]): (...args: A) => R2;
+export function composeWith<A extends any[], R1>(transformer: Arity2Fn, fns: [f1: (...args: A) => R1]): (...args: A) => R1;
+// Expected at least 1 arguments
+
+export function composeWith<A extends any[], R1, R2, R3, R4, R5, R6, R7>(transformer: Arity2Fn): ComposeWithFns<A, R1, R2, R3, R4, R5, R6, R7>;
+// tslint:enable:max-line-length
 
 /**
  * Returns the result of concatenating the given lists or strings.

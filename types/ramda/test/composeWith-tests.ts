@@ -10,7 +10,7 @@ import * as R from 'ramda';
     }
   };
 
-  const getStateCode: (input: any) => any[] = R.composeWith(R.chain, [
+  const getStateCode = R.composeWith(R.chain, [
     R.compose(
       val => [val],
       R.toUpper,
@@ -44,5 +44,7 @@ import * as R from 'ramda';
 () => {
   const composeWhileNotNil = R.composeWith((f, res) => R.isNil(res) ? res : f(res));
 
-  composeWhileNotNil([R.inc, R.prop('age')])({age: 1}); // => 2
+  const getAgeAndIncIfExist = composeWhileNotNil([R.inc, R.prop('age')]);
+
+  getAgeAndIncIfExist({age: 1}); // => 2)
 };

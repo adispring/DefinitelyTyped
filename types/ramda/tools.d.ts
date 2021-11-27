@@ -61,72 +61,17 @@ export interface CharList extends String {
  * @param V0
  * @param R
  */
-export type ComposeWithFns<V0, R> = [
-    (x0: V0) => R
-] | [
-    (x: any) => R,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-] | [
-    (x: any) => R,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: V0) => any
-];
+
+export interface ComposeWithFns<A extends any[], R1, R2, R3, R4, R5, R6, R7> {
+  (fns: [f7: (a: R6) => R7, f6: (a: R5) => R6, f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R7);
+  (fns: [f6: (a: R5) => R6, f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R6);
+  (fns: [f5: (a: R4) => R5, f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R5);
+  (fns: [f4: (a: R3) => R4, f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R4);
+  (fns: [f3: (a: R2) => R3, f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R3);
+  (fns: [f2: (a: R1) => R2, f1: (...args: A) => R1]): ((...args: A) => R2);
+  (fns: [f1: (...args: A) => R1]): ((...args: A) => R1);
+  (fns: [...Array<(...args: any[]) => any>, (...args: A) => R1]): ((...args: A) => any);
+}
 
 // ---------------------------------------------------------------------------------------
 // D
