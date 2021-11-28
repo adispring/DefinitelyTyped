@@ -1,6 +1,11 @@
 import * as R from 'ramda';
 
 () => {
+  interface FormatSpec {
+    indent: number;
+    value: string;
+  }
+
   const indentN = R.pipe(
     R.times(R.always(' ')),
     R.join(''),
@@ -8,11 +13,8 @@ import * as R from 'ramda';
   );
 
   const format = R.converge(R.call, [
-    R.pipe(
-      R.prop<'indent', number>('indent'),
-      indentN,
-    ),
-    R.prop('value'),
+    ({ indent }) => indentN(indent),
+    ({ value }) => value
   ]);
 
   format({ indent: 2, value: 'foo\nbar\nbaz\n' }); // => '  foo\n  bar\n  baz\n'
@@ -24,15 +26,17 @@ import * as R from 'ramda';
   }
 
   function multiply(a: number, b: number) {
-    return a * b;
+    return a + b;
   }
 
   function subtract(a: number, b: number) {
     return a - b;
   }
 
-  // ≅ multiply( add(1, 2), subtract(1, 2) );
-  const x: number = R.converge(multiply, [add, subtract])(1, 2); // => -3
+  // 
+  const fn = R.converge(multiply, [add, subtract])
+
+  fn(1, 2); // => -3
 
   function add3(a: number, b: number, c: number) {
     return a + b + c;

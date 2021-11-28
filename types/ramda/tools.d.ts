@@ -19,11 +19,6 @@ import { A, O, T } from "ts-toolbelt";
 /**
  * <needs description>
  */
-export type Arity0Fn = () => any;
-
-/**
- * <needs description>
- */
 export type Arity1Fn = (a: any) => any;
 
 /**
@@ -148,6 +143,27 @@ type EvolveValue<V, E> =
       ? EvolveNestedValue<V, E>
       : never;
 
+/**
+ * map list of functions to list of their return type
+ */
+
+export type ExtractReturnTypes<T extends Array<(...args: any[]) => any>> = [
+    ... {
+        [K in keyof T]: T[K] extends ((...args: any[]) => infer R) ? R : never
+    }
+];
+
+type F = ExtractReturnTypes<[(a: number) => boolean, (b: number) => number]>;
+
+// export type ExtractReturnTypes<Arr extends any[]> = Arr extends [infer a]
+//     ? a extends (...args: any) => any
+//         ? [ReturnType<a>]
+//         : never
+//     : Arr extends [infer a, ...infer as]
+//     ? a extends (...args: any) => any
+//         ? [ReturnType<a>, ...ExtractReturnTypes<as>]
+//         : never
+//     : never
 // ---------------------------------------------------------------------------------------
 // F
 
@@ -282,78 +298,6 @@ export type Placeholder = A.x & {'@@functional/placeholder': true};
  * <needs description>
  */
 export type Pred<T extends any[] = any[]> = (...a: T) => boolean;
-
-/**
- * <needs description>
- * @param V0
- * @param R
- */
-export type PipeWithFns<V0, R> = [
-    (x0: V0) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-] | [
-    (x0: V0) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => any,
-    (x: any) => R
-];
 
 // ---------------------------------------------------------------------------------------
 // R

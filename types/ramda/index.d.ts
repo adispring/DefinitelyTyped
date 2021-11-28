@@ -38,7 +38,6 @@
 
 import * as _ from "ts-toolbelt";
 import {
-    Arity0Fn,
     Arity1Fn,
     Arity2Fn,
     AssocPartialOne,
@@ -47,6 +46,7 @@ import {
     Evolvable,
     Evolve,
     Evolver,
+    ExtractReturnTypes,
     Find,
     Functor,
     KeyValuePair,
@@ -60,7 +60,6 @@ import {
     Path,
     Placeholder,
     Pred,
-    PipeWithFns,
     Reduced,
     ValueOfRecord,
     ValueOfUnion,
@@ -404,7 +403,10 @@ export function contains<T>(a: T): (list: readonly T[]) => boolean;
  * function is applied to those same arguments. The results of each branching function
  * are passed as arguments to the converging function to produce the return value.
  */
-export function converge(after: ((...a: readonly any[]) => any), fns: Array<((...a: readonly any[]) => any)>): (...a: readonly any[]) => any;
+
+// tslint:disable:max-line-length
+export function converge<TArgs extends any[], TransformFns extends Array<(...args: TArgs) => any>, TResult>(after: (...args: ExtractReturnTypes<TransformFns>) => TResult, transformers: TransformFns): (...args: TArgs) => TResult;
+// tslint:enable:max-line-length
 
 /**
  * Counts the elements of a list according to how many match each value
