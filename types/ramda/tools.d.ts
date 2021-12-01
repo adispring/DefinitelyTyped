@@ -179,16 +179,26 @@ export type Functor<A> =
  * ```
  */
 
-export type FunctionsToCompose<FnParams extends any[]> =
-    FnParams extends []
-    ? []
-    : FnParams extends [infer TArgs, infer TResult]
-        ? TArgs extends any[] ? [(...args: TArgs) => TResult] : never
-        : FnParams extends [infer Targ, infer TResult, ...infer TOtherArgs]
-            ? [...FunctionsToCompose<[TResult, ...TOtherArgs]>, (arg: Targ) => TResult]
-            : never;
+export type FunctionsToCompose<FnParams extends any[], Fns extends Array<(...args: any) => any> = []> =
+    Fns extends []
+        ? FnParams extends [infer TArgs, infer TResult]
+            ? TArgs extends any[]
+                ? [(...args: TArgs) => TResult]
+                : never
+            : FnParams extends [infer TArgs, infer TResult, ...infer TOtherArgs]
+                ? TArgs extends any[]
+                    ? FunctionsToCompose<[TResult, ...TOtherArgs], [(...args: TArgs) => TResult]>
+                    : never
+                : never
+        : FnParams extends [infer TArg, infer TResult]
+            ? [(arg: TArg) => TResult, ...Fns]
+            : FnParams extends [infer TArg, infer TResult, ...infer TOtherArgs]
+                ? FunctionsToCompose<[TResult, ...TOtherArgs], [(arg: TArg) => TResult, ...Fns]>
+                : never;
 
-type F = FunctionsToCompose<[number, string, any[]]>;
+
+type F = FunctionsToCompose<[string[], number, boolean]>;
+type F12 = FunctionsToCompose<[string[], number]>;
 
 /**
  * create functions to be piped by their parameters
@@ -381,11 +391,12 @@ export type ValueOfUnion<T> = T extends infer U ? U[keyof U] : never;
  * Take first N types of an Tuple
  */
 
-export type Take<N extends number, Tuple extends any[], ReturnTuple extends any[] = []> = ReturnTuple['length'] extends N
-    ? ReturnTuple
-    : Tuple extends [infer X, ...infer Xs]
-        ? Take<N, Xs, [...ReturnTuple, X]>
-        : never;
+export type Take<N extends number, Tuple extends any[], ReturnTuple extends any[] = []> =
+    ReturnTuple['length'] extends N
+        ? ReturnTuple
+        : Tuple extends [infer X, ...infer Xs]
+            ? Take<N, Xs, [...ReturnTuple, X]>
+            : never;
 
 /**
  * define an n-length tuple type
