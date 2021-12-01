@@ -47,6 +47,8 @@ import {
     Evolve,
     Evolver,
     Find,
+    FunctionsToCompose,
+    FunctionsToPipe,
     Functor,
     KeyValuePair,
     Lens,

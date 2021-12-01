@@ -169,6 +169,46 @@ export type Functor<A> =
   | { ['fantasy-land/map']: <B>(fn: (a: A) => B) => Functor<B>; [key: string]: any }
   | { map: <B>(fn: (a: A) => B) => Functor<B>; [key: string]: any };
 
+/**
+ * create functions to be composed by their parameters
+ * 
+ * @example
+ * ```ts
+ * type F = FunctionsToCompose<[number, string, string[]]>;
+ * // => [(arg: string) => string[], (arg: number) => string]
+ * ```
+ */
+
+export type FunctionsToCompose<FnParams extends any[]> =
+    FnParams extends []
+    ? []
+    : FnParams extends [infer TArgs, infer TResult]
+        ? TArgs extends any[] ? [(...args: TArgs) => TResult] : never
+        : FnParams extends [infer Targ, infer TResult, ...infer TOtherArgs]
+            ? [...FunctionsToCompose<[TResult, ...TOtherArgs]>, (arg: Targ) => TResult]
+            : never;
+
+type F = FunctionsToCompose<[number, string, any[]]>;
+
+/**
+ * create functions to be piped by their parameters
+
+ * @example
+ * ```ts
+ * type F = FunctionsToPipe<[number, string, string[]]>;
+ * // => [(arg: number) => string, (arg: string) => string[]]
+ * ```
+ */
+
+export type FunctionsToPipe<FnParams extends any[]> = 
+    FnParams extends []
+    ? []
+    : FnParams extends [infer TArg, infer TResult]
+        ? [(arg: TArg) => TResult]
+        : FnParams extends [infer Targ, infer TResult, ...infer TOtherArgs]
+            ? [(arg: Targ) => TResult, ...FunctionsToCompose<[TResult, ...TOtherArgs]>]
+            : never;
+
 // ---------------------------------------------------------------------------------------
 // K
 
@@ -297,6 +337,23 @@ export interface Reduced<A> {
 
 type Fn = (...args: any) => any;
 export type ReturnTypesOfFns<A extends ReadonlyArray<Fn>> = A extends [infer H, ...infer R] ? H extends Fn ? R extends Fn[] ? [ReturnType<H>, ...ReturnTypesOfFns<R>] : [] : [] : [];
+
+/**
+ * reverse a tuple
+ * 
+ * @example
+ * ```ts
+ * type F2 = Reverse<[number, string, string[]]>;
+ * // => [string[], string, number]
+ * ```
+ */
+
+type Reverse<Tuple extends any[]> =
+    Tuple extends []
+    ? []
+    : Tuple extends [infer T, ...infer Rest]
+        ? [...Reverse<Rest>, T]
+        : never;
 
 // ---------------------------------------------------------------------------------------
 // S
