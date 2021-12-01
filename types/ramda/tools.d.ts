@@ -171,7 +171,6 @@ export type Functor<A> =
 
 /**
  * create functions to be composed by their parameters
- * 
  * @example
  * ```ts
  * type F = FunctionsToCompose<[number, string, string[]]>;
@@ -196,13 +195,8 @@ export type FunctionsToCompose<FnParams extends any[], Fns extends Array<(...arg
                 ? FunctionsToCompose<[TResult, ...TOtherArgs], [(arg: TArg) => TResult, ...Fns]>
                 : never;
 
-
-type F = FunctionsToCompose<[string[], number, boolean]>;
-type F12 = FunctionsToCompose<[string[], number]>;
-
 /**
  * create functions to be piped by their parameters
-
  * @example
  * ```ts
  * type F = FunctionsToPipe<[number, string, string[]]>;
@@ -210,14 +204,22 @@ type F12 = FunctionsToCompose<[string[], number]>;
  * ```
  */
 
-export type FunctionsToPipe<FnParams extends any[]> = 
-    FnParams extends []
-    ? []
-    : FnParams extends [infer TArg, infer TResult]
-        ? [(arg: TArg) => TResult]
-        : FnParams extends [infer Targ, infer TResult, ...infer TOtherArgs]
-            ? [(arg: Targ) => TResult, ...FunctionsToCompose<[TResult, ...TOtherArgs]>]
-            : never;
+ export type FunctionsToPipe<FnParams extends any[], Fns extends Array<(...args: any) => any> = []> =
+     Fns extends []
+         ? FnParams extends [infer TArgs, infer TResult]
+             ? TArgs extends any[]
+                 ? [(...args: TArgs) => TResult]
+                 : never
+             : FnParams extends [infer TArgs, infer TResult, ...infer TOtherArgs]
+                 ? TArgs extends any[]
+                     ? FunctionsToPipe<[TResult, ...TOtherArgs], [(...args: TArgs) => TResult]>
+                     : never
+                 : never
+         : FnParams extends [infer TArg, infer TResult]
+             ? [...Fns, (arg: TArg) => TResult]
+             : FnParams extends [infer TArg, infer TResult, ...infer TOtherArgs]
+                 ? FunctionsToPipe<[TResult, ...TOtherArgs], [...Fns, (arg: TArg) => TResult]>
+                 : never;
 
 // ---------------------------------------------------------------------------------------
 // K
@@ -350,7 +352,6 @@ export type ReturnTypesOfFns<A extends ReadonlyArray<Fn>> = A extends [infer H, 
 
 /**
  * reverse a tuple
- * 
  * @example
  * ```ts
  * type F2 = Reverse<[number, string, string[]]>;

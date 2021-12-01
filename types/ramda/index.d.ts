@@ -305,42 +305,13 @@ export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7, TResult
 export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(
     ...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4, R5, R6, R7]>
 ): (...args: TArgs) => R7;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(
-    f7: (a: R6) => R7,
-    f6: (a: R5) => R6,
-    f5: (a: R4) => R5,
-    f4: (a: R3) => R4,
-    f3: (a: R2) => R3,
-    f2: (a: R1) => R2,
-    f1: (...args: TArgs) => R1
-): (...args: TArgs) => R7;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6>(
-    f6: (a: R5) => R6,
-    f5: (a: R4) => R5,
-    f4: (a: R3) => R4,
-    f3: (a: R2) => R3,
-    f2: (a: R1) => R2,
-    f1: (...args: TArgs) => R1
-): (...args: TArgs) => R6;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5>(
-    f5: (a: R4) => R5,
-    f4: (a: R3) => R4,
-    f3: (a: R2) => R3,
-    f2: (a: R1) => R2,
-    f1: (...args: TArgs) => R1
-): (...args: TArgs) => R5;
-export function compose<TArgs extends any[], R1, R2, R3, R4>(
-    ...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4]>
-): (...args: TArgs) => R4;
-export function compose<TArgs extends any[], R1, R2, R3>(
-    ...funcs: FunctionsToCompose<[TArgs, R1, R2, R3]>
-): (...args: TArgs) => R3;
-export function compose<TArgs extends any[], R1, R2>(
-    ...funcs: FunctionsToCompose<[TArgs, R1, R2]>
-): (...args: TArgs) => R2;
-export function compose<TArgs extends any[], R1>(
-    ...funcs: FunctionsToCompose<[TArgs, R1]>
-): (...args: TArgs) => R1;
+export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4, R5, R6, R7]>): (...args: TArgs) => R7;
+export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6>(...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4, R5, R6]>): (...args: TArgs) => R6;
+export function compose<TArgs extends any[], R1, R2, R3, R4, R5>(...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4, R5]>): (...args: TArgs) => R5;
+export function compose<TArgs extends any[], R1, R2, R3, R4>(...funcs: FunctionsToCompose<[TArgs, R1, R2, R3, R4]>): (...args: TArgs) => R4;
+export function compose<TArgs extends any[], R1, R2, R3>(...funcs: FunctionsToCompose<[TArgs, R1, R2, R3]>): (...args: TArgs) => R3;
+export function compose<TArgs extends any[], R1, R2>(...funcs: FunctionsToCompose<[TArgs, R1, R2]>): (...args: TArgs) => R2;
+export function compose<TArgs extends any[], R1>(...funcs: FunctionsToCompose<[TArgs, R1]>): (...args: TArgs) => R1;
 
 /**
  * Returns the right-to-left Kleisli composition of the provided functions, each of which must return a value of a type supported by chain.
@@ -1602,7 +1573,6 @@ export function pickBy<T>(pred: ObjPred<T>): <U, V extends T>(obj: V) => U;
  * passing the return value of each function invocation to the next function invocation,
  * beginning with whatever arguments were passed to the initial invocation.
  */
-// tslint:disable:max-line-length
 export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7, TResult>(
     ...funcs: [
         f1: (...args: TArgs) => R1,
@@ -1616,49 +1586,13 @@ export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7, TResult>(
         fnLast: (a: any) => TResult
     ]
 ): (...args: TArgs) => TResult;  // fallback overload if number of piped functions greater than 7
-export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2,
-    f3: (a: R2) => R3,
-    f4: (a: R3) => R4,
-    f5: (a: R4) => R5,
-    f6: (a: R5) => R6,
-    f7: (a: R6) => R7
-): (...args: TArgs) => R7;
-export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2,
-    f3: (a: R2) => R3,
-    f4: (a: R3) => R4,
-    f5: (a: R4) => R5,
-    f6: (a: R5) => R6
-): (...args: TArgs) => R6;
-export function pipe<TArgs extends any[], R1, R2, R3, R4, R5>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2,
-    f3: (a: R2) => R3,
-    f4: (a: R3) => R4,
-    f5: (a: R4) => R5
-): (...args: TArgs) => R5;
-export function pipe<TArgs extends any[], R1, R2, R3, R4>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2,
-    f3: (a: R2) => R3,
-    f4: (a: R3) => R4
-): (...args: TArgs) => R4;
-export function pipe<TArgs extends any[], R1, R2, R3>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2,
-    f3: (a: R2) => R3
-): (...args: TArgs) => R3;
-export function pipe<TArgs extends any[], R1, R2>(
-    f1: (...args: TArgs) => R1,
-    f2: (a: R1) => R2
-): (...args: TArgs) => R2;
-export function pipe<TArgs extends any[], R1>(
-    f1: (...args: TArgs) => R1
-): (...args: TArgs) => R1;
-// tslint:enable:max-line-length
+export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(...funcs: FunctionsToPipe<[TArgs, R1, R2, R3, R4, R5, R6, R7]>): (...args: TArgs) => R7;
+export function pipe<TArgs extends any[], R1, R2, R3, R4, R5, R6>(...funcs: FunctionsToPipe<[TArgs, R1, R2, R3, R4, R5, R6]>): (...args: TArgs) => R6;
+export function pipe<TArgs extends any[], R1, R2, R3, R4, R5>(...funcs: FunctionsToPipe<[TArgs, R1, R2, R3, R4, R5]>): (...args: TArgs) => R5;
+export function pipe<TArgs extends any[], R1, R2, R3, R4>(...funcs: FunctionsToPipe<[TArgs, R1, R2, R3, R4]>): (...args: TArgs) => R4;
+export function pipe<TArgs extends any[], R1, R2, R3>(...funcs: FunctionsToPipe<[TArgs, R1, R2, R3]>): (...args: TArgs) => R3;
+export function pipe<TArgs extends any[], R1, R2>(...funcs: FunctionsToPipe<[TArgs, R1, R2]>): (...args: TArgs) => R2;
+export function pipe<TArgs extends any[], R1>(...funcs: FunctionsToPipe<[TArgs, R1]>): (...args: TArgs) => R1;
 
 /**
  * Returns the left-to-right Kleisli composition of the provided functions, each of which must return a value of a type supported by chain.

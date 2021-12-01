@@ -69,43 +69,69 @@ import * as R from 'ramda';
 };
 
 () => {
-  const f0 = R.compose(Math.pow);
-  const f1 = R.compose(
-    R.negate,
-    Math.pow,
-  );
+  // $ExpectType (x: number, y: number) => number
+  const f1 = R.compose(Math.pow);
+  // $ExpectType (x: number, y: number) => number
   const f2 = R.compose(
-    R.inc,
     R.negate,
     Math.pow,
   );
+  // $ExpectType (x: number, y: number) => number
   const f3 = R.compose(
     R.inc,
-    R.inc,
     R.negate,
     Math.pow,
   );
+  // $ExpectType (x: number, y: number) => number
   const f4 = R.compose(
     R.inc,
     R.inc,
-    R.inc,
     R.negate,
     Math.pow,
   );
+  // $ExpectType (x: number, y: number) => number
   const f5 = R.compose(
     R.inc,
     R.inc,
     R.inc,
+    R.negate,
+    Math.pow,
+  );
+  // $ExpectType (x: number, y: number) => number
+  const f6 = R.compose(
+    R.inc,
+    R.inc,
+    R.inc,
     R.inc,
     R.negate,
     Math.pow,
   );
-  const x0: number = f0(3, 4); // -(3^4) + 1
-  const x1: number = f1(3, 4); // -(3^4) + 1
-  const x2: number = f2(3, 4); // -(3^4) + 1
-  const x3: number = f3(3, 4); // -(3^4) + 1
-  const x4: number = f4(3, 4); // -(3^4) + 1
-  const x5: number = f5(3, 4); // -(3^4) + 1
+  // $ExpectType (x: number, y: number) => number
+  const f7 = R.compose(
+    R.inc,
+    R.inc,
+    R.inc,
+    R.inc,
+    R.inc,
+    R.negate,
+    Math.pow,
+  );
+  // $ExpectType (x: number, y: number) => number
+  const f8 = R.compose(
+    R.inc,
+    R.inc,
+    R.inc,
+    R.inc,
+    R.inc,
+    R.inc,
+    R.negate,
+    Math.pow,
+  );
+  const x1: number = f1(3, 4);
+  const x2: number = f2(3, 4);
+  const x3: number = f3(3, 4);
+  const x4: number = f4(3, 4);
+  const x5: number = f5(3, 4);
 };
 
 () => {
